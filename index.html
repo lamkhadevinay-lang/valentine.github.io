@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>For Shital ❤️</title>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <style>
+        :root {
+            --pink: #ff4d6d;
+            --dark-pink: #c9184a;
+            --bg: #fff0f3;
+        }
+
+        body {
+            margin: 0;
+            height: 100vh;
+            width: 100vw;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #fff0f3 0%, #ffccd5 100%);
+            font-family: 'Poppins', sans-serif;
+            overflow: hidden; /* Prevents scrollbars on mobile */
+            text-align: center;
+            touch-action: none; /* Disables double-tap zoom */
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            padding: 2.5rem 1.5rem;
+            border-radius: 30px;
+            box-shadow: 0 20px 50px rgba(255, 77, 109, 0.25);
+            z-index: 10;
+            max-width: 350px; /* Better fit for mobile */
+            width: 85%;
+            border: 2px solid white;
+        }
+
+        .avatar {
+            font-size: 4rem;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        h1 {
+            color: var(--pink);
+            font-size: 1.8rem;
+            margin: 0 0 1.5rem 0;
+            line-height: 1.2;
+        }
+
+        .shital-name {
+            color: var(--dark-pink);
+            font-weight: bold;
+            display: block;
+            font-size: 2.3rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            margin-top: 1rem;
+            min-height: 60px;
+            position: relative;
+        }
+
+        button {
+            padding: 12px 30px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+            touch-action: manipulation;
+        }
+
+        #yesBtn {
+            background-color: var(--pink);
+            color: white;
+            animation: pulse 1.5s infinite;
+            z-index: 11;
+        }
+
+        #noBtn {
+            background-color: #f0f0f0;
+            color: #888;
+            position: absolute;
+            transition: 0.15s ease-out; /* Smooth teleportation */
+            z-index: 12;
+            left: 170px; /* Initial offset */
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.08); }
+            100% { transform: scale(1); }
+        }
+
+        .heart-bg {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="heart-bg" id="heartBg"></div>
+
+    <div class="container" id="mainCard">
+        <span class="avatar">💍</span>
+        <h1>Hey <span class="shital-name">Shital,</span> will you be my Valentine?</h1>
+        <div class="buttons">
+            <button id="yesBtn" onclick="handleYes()">YES</button>
+            <button id="noBtn" onmouseover="moveNo()" ontouchstart="moveNo()">NO</button>
+        </div>
+    </div>
+
+    <script>
+        function moveNo() {
+            const noBtn = document.getElementById('noBtn');
+            
+            // Stay within safe mobile screen boundaries (padding of 50px)
+            const padding = 50;
+            const maxX = window.innerWidth - noBtn.offsetWidth - padding;
+            const maxY = window.innerHeight - noBtn.offsetHeight - padding;
+            
+            const x = Math.max(padding, Math.random() * maxX);
+            const y = Math.max(padding, Math.random() * maxY);
+            
+            // Set to fixed so it can move anywhere on her screen
+            noBtn.style.position = 'fixed';
+            noBtn.style.left = x + 'px';
+            noBtn.style.top = y + 'px';
+        }
+
+        function handleYes() {
+            const card = document.getElementById('mainCard');
+            
+            // Celebration confetti
+            confetti({
+                particleCount: 150,
+                spread: 70,
+                origin: { y: 0.6 }
+            });
+
+            card.innerHTML = `
+                <div style="font-size: 5rem;">💍👸</div>
+                <h1 style="color: #ff4d6d; margin-top: 20px;">I knew it, Shital!</h1>
+                <p style="font-size: 1.2rem; color: #666;">You've made me the happiest person. ❤️</p>
+                <div style="margin-top: 25px; font-size: 2rem;">🍫🌹✨</div>
+            `;
+        }
+
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.innerHTML = ['❤️','💖','💗','🌸'][Math.floor(Math.random() * 4)];
+            heart.style.position = 'fixed';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.top = '100vh';
+            heart.style.fontSize = (Math.random() * 15 + 10) + 'px';
+            heart.style.opacity = Math.random();
+            heart.style.zIndex = '1';
+            heart.style.transition = `transform ${Math.random() * 2 + 3}s linear, opacity 2s`;
+            
+            document.getElementById('heartBg').appendChild(heart);
+            setTimeout(() => {
+                heart.style.transform = `translateY(-110vh) rotate(${Math.random() * 360}deg)`;
+            }, 100);
+            setTimeout(() => { heart.remove(); }, 5000);
+        }
+        setInterval(createHeart, 400);
+    </script>
+</body>
+</html>
